@@ -7,16 +7,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
-  <link rel="shortcut icon" href="/img/favicon.ico">
-  <title>Ember Django Adapter</title>
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Non field errors - Ember Django Adapter</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
-  <link rel="stylesheet" href="/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="/css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
   
-  <script src="/js/jquery-2.1.1.min.js" defer></script>
-  <script src="/js/modernizr-2.8.3.min.js" defer></script>
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Non field errors";
+    var mkdocs_page_input_path = "non-field-errors.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
   
@@ -39,9 +46,9 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
-        <a href="/." class="icon icon-home"> Ember Django Adapter</a>
+        <a href=".." class="icon icon-home"> Ember Django Adapter</a>
         <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="//search.html" method="get">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
@@ -53,52 +60,52 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="/.">Introduction</a>
+    <a class="" href="..">Introduction</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="/configuring/">Configuring</a>
+    <a class="" href="../configuring/">Configuring</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="/extending/">Extending</a>
+    <a class="" href="../extending/">Extending</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="/trailing-slashes/">Trailing Slashes</a>
+    <a class="" href="../trailing-slashes/">Trailing Slashes</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="/embedded-records/">Embedded Records</a>
+    <a class="" href="../embedded-records/">Embedded Records</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="/pagination/">Pagination</a>
+    <a class="" href="../pagination/">Pagination</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="/coalesce-find-requests/">Coalesce Find Requests</a>
+    <a class="" href="../coalesce-find-requests/">Coalesce Find Requests</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="/hyperlinked-related-fields/">Hyperlinked Related Fields</a>
+    <a class="" href="../hyperlinked-related-fields/">Hyperlinked Related Fields</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="/contributing/">Contributing</a>
+    <a class="" href="../contributing/">Contributing</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="/changelog/">Changelog</a>
+    <a class="" href="../changelog/">Changelog</a>
 	    </li>
           
         </ul>
@@ -111,7 +118,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="/.">Ember Django Adapter</a>
+        <a href="..">Ember Django Adapter</a>
       </nav>
 
       
@@ -119,10 +126,15 @@
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="/.">Docs</a> &raquo;</li>
+    <li><a href="..">Docs</a> &raquo;</li>
     
+      
     
+    <li>Non field errors</li>
     <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/dustinfarris/ember-django-adapter/edit/master/docs/non-field-errors.md"
+          class="icon icon-github"> Edit on GitHub</a>
       
     </li>
   </ul>
@@ -131,12 +143,31 @@
           <div role="main">
             <div class="section">
               
+                <h1 id="non-field-errors">Non field errors</h1>
+<p>By default, Django REST Framework stores non field errors in a key named 'non_field_errors'
+whenever there is a validation error (HTTP status 400).
+Django REST Framework allows to customize the name of this key.</p>
+<p>If you changed the default value, you will need to <a href="../extending/">extend</a> the adapter and set
+<code>nonFieldErrorsKey</code> in <code>app/adapters/application.js</code>:</p>
+<pre><code class="js">// app/adapters/application.js
 
-  <h1 id="404-page-not-found">404</h1>
+import DRFAdapter from './drf';
 
-  <p><strong>Page not found</strong></p>
+export default DRFAdapter.extend({
+  nonFieldErrorKey: 'my_key_name_is_waaay_cooler'
+});
+</code></pre>
 
+<p>In the case of an InvalidError being raised by the adapter when the response contains non-field errors, the
+adapter will include in the errors array a jsonapi error object of the form:</p>
+<pre><code class="js">{ detail: 'error 1', source: { pointer: 'data' }, title: 'Validation Error' }  //or whatever key name you configured
+</code></pre>
 
+<p>In case of several errors, the InvalidError.errors attribute will include</p>
+<pre><code class="js">{ detail: 'error 1', source: { pointer: 'data' }, title: 'Validation Error' }  //or whatever key name you configured
+{ detail: 'error 2', source: { pointer: 'data' }, title: 'Validation Error' }  //or whatever key name you configured
+</code></pre>
+              
             </div>
           </div>
           <footer>
@@ -168,9 +199,9 @@
       
     </span>
 </div>
-    <script>var base_url = '/';</script>
-    <script src="/js/theme.js" defer></script>
-      <script src="/search/main.js" defer></script>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
 
 </body>
 </html>
